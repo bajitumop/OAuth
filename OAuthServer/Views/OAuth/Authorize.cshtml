@@ -1,0 +1,27 @@
+﻿@using Shared
+@{
+    ViewBag.Title = "OAuth авторизация";
+}
+
+<h2>Стороннее приложение запрашивает доступ к Вашему аккаунту</h2>
+
+@using (Html.BeginForm("Authorize", "OAuth", FormMethod.Post))
+{
+	@Html.Hidden("RedirectUri", (string)ViewBag.RedirectUri)
+	@Html.Hidden("ClientId", (string) ViewBag.ClientId)
+	@Html.Hidden("State", (string) ViewBag.State)
+	@Html.Hidden("ScopeStr", (string)ViewBag.ScopeStr)
+	foreach (var str in Scopes.ScopeDescriptions((Scope)int.Parse(ViewBag.ScopeStr)))
+	{
+		<li>@str</li>
+	}
+
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Разрешить" name="Grant" class="btn btn-default"/>
+		</div>
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Отменить" name="Deny" class="btn btn-default"/>
+		</div>
+	</div>
+}
